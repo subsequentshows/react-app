@@ -1,7 +1,7 @@
 import React from 'react';
 const routes = [
   {
-    path: '/',
+    path: '/DanhMuc',
     component: React.lazy(() => import('./pages/DanhMucPage/DanhMucPageConnector')),
     exact: true
   },

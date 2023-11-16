@@ -54,7 +54,7 @@ const DanhMucPageConnector = () => {
         clearTimeout(delay);
       }
     }
-  }, [page, perPage]);
+  }, [page, perPage]); // call lai api khi page thay doi
 
   return (
     <DanhMucPage

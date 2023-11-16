@@ -10,7 +10,7 @@ const columns = [
   {
     id: '1',
     title: 'STT',
-    render: content => i++
+    render: 0
   },
   {
     id: '2',

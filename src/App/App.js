@@ -15,14 +15,13 @@ const App = () => {
     <Router>
       <Suspense fallback={<div><img src={loadingGif} alt='' /></div>}>
         <>
-          <Header >
-
-          </Header>
+          <Header />
 
           <div className="navbar">
             <Link className="link" to="/">Danh Mục</Link>
             <Link className="link" to="/todos">Todos</Link>
           </div>
+
           <Switch>
             {
               routes.map(route => (
