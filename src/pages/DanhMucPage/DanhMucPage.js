@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import TablePagePagination from "../../shared/components/TablePagePagination/TablePagePagination";
 import Table from '../../shared/components/Table/Table';
-import './PokemonPage.scss';
+import './DanhMucPage.scss';
 import { TablePagePaginationPropTypes } from '../../shared/components/TablePagePagination/tablePagePaginationHelpers';
 import PropTypes from 'prop-types';
 
@@ -24,7 +24,7 @@ const columns = [
   }
 ];
 
-const PokemonsPage = ({ pagePagination, pokemons, isLoadingPokemons }) => {
+const DanhMucPage = ({ pagePagination, pokemons, isLoadingPokemons }) => {
   const [inputValue, setInputValue] = useState('');
   const [textSearch, setTextSearch] = useState('');
 
@@ -71,7 +71,7 @@ const PokemonsPage = ({ pagePagination, pokemons, isLoadingPokemons }) => {
   );
 };
 
-PokemonsPage.propTypes = {
+DanhMucPage.propTypes = {
   pagePagination: PropTypes.shape(TablePagePaginationPropTypes),
   pokemons: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
@@ -80,4 +80,4 @@ PokemonsPage.propTypes = {
   isLoadingPokemons: PropTypes.bool.isRequired
 }
 
-export default PokemonsPage;
+export default DanhMucPage;

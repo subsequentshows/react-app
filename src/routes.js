@@ -2,7 +2,7 @@ import React from 'react';
 const routes = [
   {
     path: '/',
-    component: React.lazy(() => import('./pages/PokemonsPage/PokemonsPageConnector')),
+    component: React.lazy(() => import('./pages/DanhMucPage/DanhMucPageConnector')),
     exact: true
   },
   {

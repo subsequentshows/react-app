@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import PokemonsPage from "./PokemonsPage";
+import DanhMucPage from "./DanhMucPage";
 import axios from 'axios';
 import usePagePagination from '../../shared/helpers/usePagePagination/usePagePagination';
 
 const CancelToken = axios.CancelToken;
 
-const PokemonsPageConnector = () => {
+const DanhMucPageConnector = () => {
   const [pokemons, setPokemons] = useState([]);
   const [pokemonsCount, setPokemonsCount] = useState(0);
   const [isLoadingPokemons, setIsLoadingPokemons] = useState(true);
@@ -34,18 +34,18 @@ const PokemonsPageConnector = () => {
       })
     })
       .then(response => {
-      delay = setTimeout(() => {
-        const { count, results } = response.data;
-        setIsLoadingPokemons(false);
-        setPokemonsCount(count);
-        setPokemons([...results]);
-      }, 1500)
-    }).catch(err => {
-      if(!axios.isCancel(err)) {
-        setIsLoadingPokemons(false);
-      }
-      console.error(err);
-    })
+        delay = setTimeout(() => {
+          const { count, results } = response.data;
+          setIsLoadingPokemons(false);
+          setPokemonsCount(count);
+          setPokemons([...results]);
+        }, 1500)
+      }).catch(err => {
+        if (!axios.isCancel(err)) {
+          setIsLoadingPokemons(false);
+        }
+        console.error(err);
+      })
 
     /* clear all effects */
     return () => {
@@ -55,21 +55,21 @@ const PokemonsPageConnector = () => {
       }
     }
   }, [page, perPage]);
-  
+
   return (
-    <PokemonsPage
-      key={ page }
-      pagePagination={ {
+    <DanhMucPage
+      key={page}
+      pagePagination={{
         page,
         perPage,
         totalPages,
         onPageChange: changePage,
         onPerPageChange: changePerPage
-      } }
-      pokemons={ pokemons }
-      isLoadingPokemons={ isLoadingPokemons }
+      }}
+      pokemons={pokemons}
+      isLoadingPokemons={isLoadingPokemons}
     />
   );
 };
 
-export default PokemonsPageConnector;
+export default DanhMucPageConnector;
