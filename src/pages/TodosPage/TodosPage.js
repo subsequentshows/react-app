@@ -5,6 +5,7 @@ import './TodosPage.css';
 import usePagePagination from '../../shared/helpers/usePagePagination/usePagePagination';
 import { FIRST_PAGE } from '../../shared/helpers/usePagePagination/usePagePaginationConsts';
 import PropTypes from 'prop-types';
+import HighLightSearchText from '../../shared/components/HightLightSearchText/HighLightSearchText';
 
 const getStatus = completed => completed ? 'Completed' : 'Open';
 const getColumns = (searchText, editAction) => [

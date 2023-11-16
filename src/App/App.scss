@@ -1,0 +1,16 @@
+.navbar {
+  display: flex;
+
+  &>.link {
+    margin: 15px;
+  }
+
+  .link:nth-child(2) {
+    display: none;
+  }
+}
+
+a {
+  color: #333;
+  text-decoration: none;
+}
