@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FIRST_PAGE, PER_PAGE_OPTIONS } from '../../helpers/usePagePagination/usePagePaginationConsts';
 import './TablePagePagination.scss';
 import { TablePagePaginationPropTypes } from './tablePagePaginationHelpers';
@@ -10,17 +10,12 @@ const TablePagePagination = ({
   onPageChange,
   onPerPageChange
 }) => {
-
   const pages = Array.from(Array(totalPages).keys())
   return (
     <div className='pagination-wrapper'>
       <div className='pagination'>
-        <button onClick={() => onPageChange(FIRST_PAGE)}>
-          {`<<`}
-        </button>
-        <button onClick={() => onPageChange(page - 1)}>
-          {`<`}
-        </button>
+        <button onClick={() => onPageChange(FIRST_PAGE)}> {`<<`} </button>
+        <button onClick={() => onPageChange(page - 1)}> {`<`}</button>
         {
           pages.map(pageIndex => (
             <button
@@ -32,18 +27,13 @@ const TablePagePagination = ({
             </button>
           ))
         }
-        <button onClick={() => onPageChange(page + 1)}>
-          {`>`}
-        </button>
-        <button onClick={() => onPageChange(totalPages)}>
-          {`>>`}
-        </button>
+
+        <button onClick={() => onPageChange(page + 1)}> {`>`} </button>
+        <button onClick={() => onPageChange(totalPages)}> {`>>`} </button>
       </div>
 
       <div className='per-page'>
-        <label>
-          Số bản ghi/trang
-        </label>
+        <label> Số bản ghi/trang </label>
         <select
           value={perPage}
           onChange={evt => {

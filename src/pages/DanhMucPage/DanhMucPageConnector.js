@@ -1,74 +1,70 @@
 import React, { useEffect, useState } from 'react';
 import DanhMucPage from "./DanhMucPage";
-import axios from 'axios';
-import usePagePagination from '../../shared/helpers/usePagePagination/usePagePagination';
+import ReactDOM from 'react-dom';
+import ReactPaginate from 'react-paginate';
 
-const CancelToken = axios.CancelToken;
+// Example items, to simulate fetching from another resources.
+const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+function Items({ currentItems }) {
+  return (
+    <>
+      {currentItems &&
+        currentItems.map((item) => (
+          <div>
+            <h3>Item #{item}</h3>
+          </div>
+        ))}
+    </>
+  );
+}
 
-const DanhMucPageConnector = () => {
-  const [pokemons, setPokemons] = useState([]);
-  const [pokemonsCount, setPokemonsCount] = useState(0);
-  const [isLoadingPokemons, setIsLoadingPokemons] = useState(true);
-  const {
-    page,
-    perPage,
-    totalPages,
-    changePerPage,
-    changePage,
-  } = usePagePagination(pokemonsCount);
+function PaginatedItems({ itemsPerPage }) {
+  // Here we use item offsets; we could also use page offsets
+  // following the API or data you're working with.
+  const [itemOffset, setItemOffset] = useState(0);
 
-  useEffect(() => {
-    let cancelRequest = null;
-    let delay = null;
-    setIsLoadingPokemons(true);
+  // Simulate fetching items from another resources.
+  // (This could be items from props; or items loaded in a local state
+  // from an API endpoint with useEffect and useState)
+  const endOffset = itemOffset + itemsPerPage;
+  console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+  const currentItems = items.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(items.length / itemsPerPage);
 
-    axios({
-      method: 'GET',
-      url: 'https://pokeapi.co/api/v2/pokemon',
-      params: {
-        limit: perPage,
-        offset: (page - 1) * perPage
-      },
-      cancelToken: new CancelToken(c => {
-        cancelRequest = c;
-      })
-    })
-      .then(response => {
-        delay = setTimeout(() => {
-          const { count, results } = response.data;
-          setIsLoadingPokemons(false);
-          setPokemonsCount(count);
-          setPokemons([...results]);
-        }, 1500)
-      }).catch(err => {
-        if (!axios.isCancel(err)) {
-          setIsLoadingPokemons(false);
-        }
-        console.error(err);
-      })
-
-    /* clear all effects */
-    return () => {
-      cancelRequest();
-      if (delay) {
-        clearTimeout(delay);
-      }
-    }
-  }, [page, perPage]); // call lai api khi page thay doi
+  // Invoke when user click to request another page.
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % items.length;
+    console.log(
+      `User requested page number ${event.selected}, which is offset ${newOffset}`
+    );
+    setItemOffset(newOffset);
+  };
 
   return (
-    <DanhMucPage
-      key={page}
-      pagePagination={{
-        page,
-        perPage,
-        totalPages,
-        onPageChange: changePage,
-        onPerPageChange: changePerPage
-      }}
-      pokemons={pokemons}
-      isLoadingPokemons={isLoadingPokemons}
-    />
+    <>
+      <Items currentItems={currentItems} />
+      <ReactPaginate
+        breakLabel="..."
+        nextLabel=">"
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={5}
+        pageCount={pageCount}
+        previousLabel="<"
+        renderOnZeroPageCount={null}
+      />
+    </>
+  );
+}
+
+// Add a <div id="container"> to your HTML to see the component rendered.
+ReactDOM.render(
+  <PaginatedItems itemsPerPage={1} />,
+  document.getElementById('container')
+);
+
+const DanhMucPageConnector = () => {
+  return (
+    <DanhMucPage />
   );
 };
 

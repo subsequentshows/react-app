@@ -1,4 +1,5 @@
-.pagination-wrapper {
+.pagination-wrapper,
+#container ul {
     border-top: 1px solid #ccc;
     background: whitesmoke;
     color: #333;
@@ -32,5 +33,27 @@
                 height: 30px;
             }
         }
+    }
+
+    li {
+
+
+        margin: 0;
+        padding: 0;
+        width: 34px;
+        height: 34px;
+        border: 1px solid #ccc;
+        // border-left-width: 0;
+        box-sizing: content-box;
+        background-color: #fff;
+        color: #333;
+        text-align: center;
+
+        a {
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
     }
 }

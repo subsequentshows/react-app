@@ -16,11 +16,10 @@ const App = () => {
       <Suspense fallback={<div><img src={loadingGif} alt='' /></div>}>
         <>
           <Header />
-
-          <div className="navbar">
-            <Link className="link" to="/">Danh Mục</Link>
+          {/* <div className="navbar">
+            <Link className="link" to="/DanhMuc/DanhMuc">Danh Mục</Link>
             <Link className="link" to="/todos">Todos</Link>
-          </div>
+          </div> */}
 
           <Switch>
             {

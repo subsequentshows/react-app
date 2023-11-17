@@ -1,8 +1,13 @@
 import React from 'react';
 const routes = [
   {
-    path: '/DanhMuc',
+    path: '/DanhMuc/DanhMuc',
     component: React.lazy(() => import('./pages/DanhMucPage/DanhMucPageConnector')),
+    exact: true
+  },
+  {
+    path: '/DanhMuc/DanhMucTinh',
+    component: React.lazy(() => import('./pages/DanhMucTinhPage/DanhMucTinhPageConnector')),
     exact: true
   },
   {
