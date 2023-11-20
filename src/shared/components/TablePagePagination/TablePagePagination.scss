@@ -18,6 +18,12 @@
             background-color: #fff;
             color: #333;
             text-align: center;
+            cursor: pointer;
+
+            &:hover {
+                color: #fff;
+                background-color: #337ab7;
+            }
         }
 
         .page_active {

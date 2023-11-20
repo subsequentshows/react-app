@@ -47,8 +47,11 @@ function PaginatedItems({ itemsPerPage }) {
         breakLabel="..."
         nextLabel=">"
         onPageChange={handlePageClick}
-        pageRangeDisplayed={5}
+        pageRangeDisplayed={3}
+        marginPagesDisplayed={3}
+        pageClassName="pages"
         pageCount={pageCount}
+        containerClassName="pagination"
         previousLabel="<"
         renderOnZeroPageCount={null}
       />
@@ -59,12 +62,14 @@ function PaginatedItems({ itemsPerPage }) {
 // Add a <div id="container"> to your HTML to see the component rendered.
 ReactDOM.render(
   <PaginatedItems itemsPerPage={1} />,
-  document.getElementById('container')
+  document.getElementById('root')
 );
 
 const DanhMucPageConnector = () => {
   return (
-    <DanhMucPage />
+    <div id=''>
+      <DanhMucPage />
+    </div>
   );
 };
 

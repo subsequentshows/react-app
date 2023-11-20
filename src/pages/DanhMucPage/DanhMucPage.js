@@ -7,20 +7,20 @@ import ReactPaginate from 'react-paginate';
 
 const DanhMucPage = () => {
   return (
+    <div id='container'>
+      <div className='container'>
+        <div className='page-title'>
+          <p>Danh Mục</p>
+        </div>
 
-    <div className='container'>
-      <div className='page-title'>
-        <p>Danh Mục</p>
-      </div>
+        <div className='item-content'>
+          <p>I. Danh Mục</p>
 
-      <div className='item-content'>
-        <p>I. Danh Mục</p>
-
-        <div className='inner-content'>
-
+          <div className='inner-content'>
+            <div className='pagination'></div>
+          </div>
         </div>
       </div>
-      <div id='container'></div>
     </div>
   );
 };

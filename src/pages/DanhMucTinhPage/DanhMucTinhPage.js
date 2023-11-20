@@ -10,7 +10,7 @@ const columns = [
   {
     id: '1',
     title: 'STT',
-    render: content => content.name
+    render: content => content.age
   },
   {
     id: '2',
