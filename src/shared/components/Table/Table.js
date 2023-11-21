@@ -1,6 +1,7 @@
 import React from 'react';
 import './Table.scss';
 import PropTypes from 'prop-types';
+import loadingGif from '../../../assets/images/loading.gif';
 
 const Table = ({ rows, columns, isLoading }) => {
   return (
@@ -30,7 +31,8 @@ const Table = ({ rows, columns, isLoading }) => {
         </tbody>
       </table>
       <div className={`loading-modal ${isLoading ? 'loading-modal__show' : ''}`}>
-        {isLoading ? (<h1>Loading</h1>) : ''}
+        {/* {isLoading ? (<h1>Loading</h1>) : ''} */}
+        {isLoading ? (<img src={loadingGif} alt='Loading...'></img>) : ''}
       </div>
     </div>
   );

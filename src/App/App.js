@@ -17,9 +17,9 @@ const App = () => {
         <>
           <Header />
           {/* <div className="navbar">
-            <Link className="link" to="/DanhMuc/DanhMuc">Danh Mục</Link>
-            <Link className="link" to="/todos">Todos</Link>
-          </div> */}
+                <Link className="link" to="/DanhMuc/DanhMuc">Danh Mục</Link>
+                <Link className="link" to="/todos">Todos</Link>
+              </div> */}
 
           <Switch>
             {
