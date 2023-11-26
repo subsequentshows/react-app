@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import DanhMucPage from "./DanhMucPage";
 import ReactDOM from 'react-dom';
 import ReactPaginate from 'react-paginate';
+import Header from "./../../Layout/Header/Header";
+import Navbar from '../../Layout/Navbar/Navbar';
+import axios from 'axios';
+import usePagePagination from '../../shared/helpers/usePagePagination/usePagePagination';
 
 // Example items, to simulate fetching from another resources.
 const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
@@ -10,8 +14,8 @@ function Items({ currentItems }) {
     <>
       {currentItems &&
         currentItems.map((item) => (
-          <div>
-            <h3>Item #{item}</h3>
+          <div className='items'>
+            <p>Item #{item}</p>
           </div>
         ))}
     </>
@@ -41,21 +45,40 @@ function PaginatedItems({ itemsPerPage }) {
   };
 
   return (
-    <>
-      <Items currentItems={currentItems} />
-      <ReactPaginate
-        breakLabel="..."
-        nextLabel=">"
-        onPageChange={handlePageClick}
-        pageRangeDisplayed={3}
-        marginPagesDisplayed={3}
-        pageClassName="pages"
-        pageCount={pageCount}
-        containerClassName="pagination"
-        previousLabel="<"
-        renderOnZeroPageCount={null}
-      />
-    </>
+    <div>
+      <Header />
+      <Navbar />
+
+
+      <div id='container'>
+        <div className='container'>
+          <div className='page-title'>
+            <p>Danh Mục</p>
+          </div>
+
+          <div className='item-content'>
+            <p>I. Danh Mục</p>
+          </div>
+
+          <div className=''>
+            <Items currentItems={currentItems} />
+
+            <ReactPaginate
+              breakLabel="..."
+              nextLabel=">"
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={3}
+              marginPagesDisplayed={3}
+              pageClassName="pages"
+              pageCount={pageCount}
+              containerClassName="pagination"
+              previousLabel="<"
+              renderOnZeroPageCount={null}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

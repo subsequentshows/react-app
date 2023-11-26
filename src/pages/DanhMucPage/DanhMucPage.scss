@@ -1,0 +1,35 @@
+.container {
+  padding-left: 15px;
+  padding-right: 15px;
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 400;
+
+  .page-title {
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1.4;
+    padding-bottom: 1px;
+    // border-bottom: 1px solid #3e3e3e;
+  }
+
+  .item-content {
+    margin-top: 10px;
+  }
+
+  .items {
+    font-size: 18px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border: 1px dotted gray;
+    padding-left: 15px;
+    margin-top: 15px;
+    text-align: center;
+  }
+
+  .pagination {
+    margin-top: 15px;
+    justify-content: center;
+  }
+}

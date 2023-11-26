@@ -57,18 +57,20 @@ const DanhMucTinhPageConnector = () => {
   }, [page, perPage]); // call lai api khi page thay doi
 
   return (
-    <DanhMucTinhPage
-      key={page}
-      pagePagination={{
-        page,
-        perPage,
-        totalPages,
-        onPageChange: changePage,
-        onPerPageChange: changePerPage
-      }}
-      pokemons={pokemons}
-      isLoadingPokemons={isLoadingPokemons}
-    />
+    <div>
+      <DanhMucTinhPage
+        key={page}
+        pagePagination={{
+          page,
+          perPage,
+          totalPages,
+          onPageChange: changePage,
+          onPerPageChange: changePerPage
+        }}
+        pokemons={pokemons}
+        isLoadingPokemons={isLoadingPokemons}
+      />
+    </div>
   );
 };
 

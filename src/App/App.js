@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import routes from '../routes';
 import Header from '../Layout/Header/Header';
+import Navbar from "../Layout/Navbar/Navbar";
 import loadingGif from './../assets/images/loading.gif';
 
 const App = () => {
@@ -16,10 +17,8 @@ const App = () => {
       <Suspense fallback={<div><img src={loadingGif} alt='' /></div>}>
         <>
           <Header />
-          {/* <div className="navbar">
-                <Link className="link" to="/DanhMuc/DanhMuc">Danh Mục</Link>
-                <Link className="link" to="/todos">Todos</Link>
-              </div> */}
+
+          <Navbar />
 
           <Switch>
             {
