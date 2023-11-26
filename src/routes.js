@@ -11,23 +11,8 @@ const routes = [
     exact: true
   },
   {
-    path: '/DanhMuc/DanhMucTinh',
-    component: React.lazy(() => import('./pages/DanhMucTinhPage/DanhMucTinhPageConnector')),
-    exact: true
-  },
-  {
-    path: '/todos',
-    component: React.lazy(() => import('./pages/TodosPage/TodosPageConnector')),
-    exact: true
-  },
-  {
-    path: '/add-todo',
-    component: React.lazy(() => import('./pages/AddTodoPage/AddTodoPage')),
-    exact: true
-  },
-  {
-    path: '/edit-todo/:id',
-    component: React.lazy(() => import('./pages/EditTodoPage/EditTodoPageConnector')),
+    path: '/DanhMuc/DanhMucHuyen',
+    component: React.lazy(() => import('./pages/DanhMucHuyenPage/DanhMucHuyenPageConnector')),
     exact: true
   }
 ]

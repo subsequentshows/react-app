@@ -3,12 +3,11 @@ import './App.scss';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Link,
+  Route
 } from "react-router-dom";
 import routes from '../routes';
 import Header from '../Layout/Header/Header';
-import Navbar from "../Layout/Navbar/Navbar";
 import loadingGif from './../assets/images/loading.gif';
 
 const App = () => {
@@ -18,7 +17,12 @@ const App = () => {
         <>
           <Header />
 
-          <Navbar />
+          <div className="navbar">
+            <Link className="link" to="/DanhMuc/DanhMuc">Danh mục</Link>
+            <Link className="link" to="/DanhMuc/DanhMucTinh">Danh mục tỉnh</Link>
+            <Link className="link" to="/DanhMuc/DanhMucHuyen">Danh mục huyen</Link>
+            <Link className="link" to="/todos">Todos</Link>
+          </div>
 
           <Switch>
             {

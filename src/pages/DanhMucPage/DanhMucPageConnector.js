@@ -1,98 +1,109 @@
 import React, { useEffect, useState } from 'react';
-import DanhMucPage from "./DanhMucPage";
 import ReactDOM from 'react-dom';
 import ReactPaginate from 'react-paginate';
 import Header from "./../../Layout/Header/Header";
-import Navbar from '../../Layout/Navbar/Navbar';
 import axios from 'axios';
-import usePagePagination from '../../shared/helpers/usePagePagination/usePagePagination';
+import DanhMucPage from '../DanhMucPage/DanhMucPage';
 
-// Example items, to simulate fetching from another resources.
-const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
-function Items({ currentItems }) {
+function Items({ currentItems, startIndex }) {
+  let i = 1;
   return (
     <>
       {currentItems &&
-        currentItems.map((item) => (
-          <div className='items'>
-            <p>Item #{item}</p>
-          </div>
+        currentItems.map((pokemon, index) => (
+          <tr className='items' key={pokemon.id}>
+            <td className={`stt-${startIndex + index + 1}`}>{startIndex + index + 1}</td>
+            <td>{pokemon.name}</td>
+            <td>{pokemon.length}</td>
+            <td></td>
+          </tr>
         ))}
     </>
   );
 }
 
 function PaginatedItems({ itemsPerPage }) {
-  // Here we use item offsets; we could also use page offsets
-  // following the API or data you're working with.
+  // State variables using the useState hook
+  const [pokemons, setPokemons] = useState([]);
   const [itemOffset, setItemOffset] = useState(0);
 
-  // Simulate fetching items from another resources.
-  // (This could be items from props; or items loaded in a local state
-  // from an API endpoint with useEffect and useState)
-  const endOffset = itemOffset + itemsPerPage;
-  console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-  const currentItems = items.slice(itemOffset, endOffset);
-  const pageCount = Math.ceil(items.length / itemsPerPage);
+  // Fetch data when the component mounts
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `https://pokeapi.co/api/v2/pokemon?offset=0&limit=1000`
+        );
 
-  // Invoke when user click to request another page.
+        // Updating the 'pokemons' state with the results
+        setPokemons(response.data.results);
+      } catch (error) {
+        console.error('Đã xảy ra lỗi khi lấy dữ liệu:', error);
+      }
+    };
+
+    // Calling when component mounts
+    fetchData();
+  }, []);
+
+  // Calculating the end offset for the current page
+  const endOffset = itemOffset + itemsPerPage;
+  
+  // Slicing the 'pokemons' array to get the current items for the current page
+  // current offset for pagination
+  const currentItems = pokemons.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(pokemons.length / itemsPerPage);
+
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % items.length;
-    console.log(
-      `User requested page number ${event.selected}, which is offset ${newOffset}`
-    );
+    const newOffset = event.selected * itemsPerPage;
+
     setItemOffset(newOffset);
   };
 
   return (
-    <div>
-      <Header />
-      <Navbar />
+    <div className='item-wrapper'>
+      <DanhMucPage></DanhMucPage>
+      <div className='container'>
+        <table>
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Tên</th>
+              <th>Mã</th>
+              <th></th>
+            </tr>
+          </thead>
 
+          <tbody>
+            <Items currentItems={currentItems} startIndex={itemOffset} />
+          </tbody>
+        </table>
 
-      <div id='container'>
-        <div className='container'>
-          <div className='page-title'>
-            <p>Danh Mục</p>
-          </div>
-
-          <div className='item-content'>
-            <p>I. Danh Mục</p>
-          </div>
-
-          <div className=''>
-            <Items currentItems={currentItems} />
-
-            <ReactPaginate
+        <ReactPaginate
               breakLabel="..."
               nextLabel=">"
               onPageChange={handlePageClick}
               pageRangeDisplayed={3}
-              marginPagesDisplayed={3}
+              marginPagesDisplayed={2}
               pageClassName="pages"
               pageCount={pageCount}
               containerClassName="pagination"
               previousLabel="<"
               renderOnZeroPageCount={null}
             />
-          </div>
-        </div>
       </div>
     </div>
   );
 }
 
-// Add a <div id="container"> to your HTML to see the component rendered.
 ReactDOM.render(
-  <PaginatedItems itemsPerPage={1} />,
+  <PaginatedItems itemsPerPage={10} />,
   document.getElementById('root')
 );
 
 const DanhMucPageConnector = () => {
   return (
-    <div id=''>
-      <DanhMucPage />
-    </div>
+    <></>
   );
 };
 

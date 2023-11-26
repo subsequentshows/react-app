@@ -19,6 +19,18 @@ table {
   tr:nth-child(2n + 2) {
     background-color: #f9f9f9;
   }
+
+  thead tr th:first-child {
+    width: 60px;
+  }
+
+  thead tr th:nth-child(2){
+    width: 300px;
+  }
+
+  thead tr th:nth-child(3){
+    width: 100px;
+  }
 }
 
 .table-container {

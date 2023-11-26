@@ -6,6 +6,18 @@
   line-height: 1.4;
   font-weight: 400;
 
+  table {
+    width: 100%;
+
+    thead {
+      background-color: #0071a6;
+      
+      tr th {
+        color: #fff;
+      }
+    }
+  }
+
   .page-title {
     font-size: 26px;
     font-weight: 600;
@@ -31,5 +43,10 @@
   .pagination {
     margin-top: 15px;
     justify-content: center;
+
+    .pages.selected a {
+      background-color: #0071a6;
+      color: #fff;
+    }
   }
 }
