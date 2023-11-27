@@ -11,7 +11,7 @@
 
     thead {
       background-color: #0071a6;
-      
+
       tr th {
         color: #fff;
       }
@@ -42,11 +42,15 @@
 
   .pagination {
     margin-top: 15px;
-    justify-content: center;
+    // justify-content: center;
 
     .pages.selected a {
       background-color: #0071a6;
       color: #fff;
     }
+  }
+
+  .danh-muc-page {
+    margin-bottom: 30px;
   }
 }

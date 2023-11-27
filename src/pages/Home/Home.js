@@ -4,7 +4,7 @@ import React from 'react';
 const Home = () => {
   return (
     <div id='container'>
-      <div className='container'>
+      <div className=''>
         <div className='page-title'>
           <p>Danh Mục</p>
         </div>

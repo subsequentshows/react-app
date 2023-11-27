@@ -4,7 +4,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Link,
-  Route
+  Route,
+  Redirect
 } from "react-router-dom";
 import routes from '../routes';
 import Header from '../Layout/Header/Header';
@@ -24,6 +25,7 @@ const App = () => {
             <Link className="link" to="/todos">Todos</Link>
           </div>
 
+          <Redirect exact from="/" to="/DanhMuc/DanhMuc" />
           <Switch>
             {
               routes.map(route => (
@@ -32,7 +34,8 @@ const App = () => {
                   path={route.path}
                   exact={route.exact}
                   component={route.component}
-                />))
+                />
+              ))
             }
           </Switch>
         </>
