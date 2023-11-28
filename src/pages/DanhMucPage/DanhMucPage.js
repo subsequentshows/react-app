@@ -1,6 +1,7 @@
 import React from 'react';
 import './DanhMucPage.scss';
 import './../../shared/components/Table/Table.scss';
+import './../../shared/components/Modal/Modal.scss';
 import Header from "./../../Layout/Header/Header";
 
 const DanhMucPage = () => {

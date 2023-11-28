@@ -1,56 +1,104 @@
-.container {
-  padding-left: 15px;
-  padding-right: 15px;
-  margin: 0;
-  font-size: 16px;
-  line-height: 1.4;
-  font-weight: 400;
+table {
+  width: 100%;
 
-  table {
-    width: 100%;
+  thead {
+    background-color: #0071a6;
 
-    thead {
-      background-color: #0071a6;
-
-      tr th {
-        color: #fff;
-      }
-    }
-  }
-
-  .page-title {
-    font-size: 26px;
-    font-weight: 600;
-    line-height: 1.4;
-    padding-bottom: 1px;
-    // border-bottom: 1px solid #3e3e3e;
-  }
-
-  .item-content {
-    margin-top: 10px;
-  }
-
-  .items {
-    font-size: 18px;
-    padding-top: 7px;
-    padding-bottom: 7px;
-    border: 1px dotted gray;
-    padding-left: 15px;
-    margin-top: 15px;
-    text-align: center;
-  }
-
-  .pagination {
-    margin-top: 15px;
-    // justify-content: center;
-
-    .pages.selected a {
-      background-color: #0071a6;
+    tr th {
       color: #fff;
     }
   }
+}
 
-  .danh-muc-page {
-    margin-bottom: 30px;
+.page-title {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.4;
+  padding-bottom: 1px;
+  // border-bottom: 1px solid #3e3e3e;
+}
+
+.item-content {
+  margin-top: 10px;
+}
+
+.items {
+  font-size: 18px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  border: 1px dotted gray;
+  padding-left: 15px;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.modal {
+
+
+  .modal-dialog {
+    min-height: 200px;
+    max-width: 1000px;
+
+    .modal-content {
+      background-color: #fff;
+      flex-wrap: wrap;
+
+      .modal-header {
+        padding: 5px;
+        flex-wrap: wrap;
+        align-items: center;
+        align-content: center;
+
+        .modal-title-wrapper {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          align-content: center;
+
+          .modal-logo {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+          }
+
+          .modal-title {
+            font-size: 14px;
+            margin-left: 10px;
+          }
+        }
+
+        .btn-close {
+          margin: 0;
+          margin-right: 10px;
+        }
+      }
+
+      .modal-body {
+        .item-header {
+          .item-title {
+
+            p {
+              color: #0071a6;
+              font-size: 16px;
+              text-transform: uppercase;
+            }
+          }
+        }
+      }
+    }
   }
+}
+
+.pagination {
+  margin-top: 15px;
+  // justify-content: center;
+
+  .pages.selected a {
+    background-color: #0071a6;
+    color: #fff;
+  }
+}
+
+.danh-muc-page {
+  margin-bottom: 30px;
 }

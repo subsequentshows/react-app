@@ -5,8 +5,7 @@ import axios from 'axios';
 import DanhMucPage from '../DanhMucPage/DanhMucPage';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import { Modal, Button } from 'react-bootstrap';
 
 function Items({ currentItems, startIndex }) {
   return (
@@ -34,6 +33,11 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  // File upload
+  const [file, setFile] = useState();
+  const [uploadedFile, setUploadedFile] = useState();
+  const [error, setError] = useState();
 
   // Fetch data when the component mounts
   useEffect(() => {
@@ -70,6 +74,32 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
     pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  function handleFileUploadChange(event) {
+    setFile(event.target.files[0])
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    const url = 'http://localhost:3000/uploadFile';
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('fileName', file.name);
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data',
+      },
+    };
+    axios.post(url, formData, config)
+      .then((response) => {
+        console.log(response.data);
+        setUploadedFile(response.data.file);
+      })
+      .catch((error) => {
+        console.error("Error uploading file: ", error);
+        setError(error);
+      });
+  }
+
   // Calculating the end offset for the current page
   const endOffset = itemOffset + itemsPerPage;
 
@@ -83,10 +113,10 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
 
 
   return (
-    <div className='item-wrapper haha'>
+    <div className='item-wrapper'>
       <DanhMucPage />
 
-      <div className='container'>
+      <div className='container-wrapper'>
         <div className='item-header'>
           <div className='item-title'>
             <p>I. Danh mục pokemon</p>
@@ -102,7 +132,9 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
             </div>
 
             <div className='item-function-btn'>
-              <button className='qi-button'>Nhập từ excel</button>
+              <Button className='qi-button' variant="primary" onClick={handleShow}>
+                Nhập từ excel
+              </Button>
             </div>
 
             <div className='item-function-btn'>
@@ -160,6 +192,77 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
           previousLabel="<"
           renderOnZeroPageCount={null}
         />
+
+        <Modal
+          show={show}
+          onHide={handleClose}
+          backdrop="static"
+          keyboard={false}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title className='modal-title-wrapper'>
+              <img className='modal-logo' src='' alt='' />
+              <p className='modal-title'>Quản lý thu phí</p>
+            </Modal.Title>
+
+            {/* <Button variant="secondary" onClick={handleClose}>
+              X
+            </Button> */}
+          </Modal.Header>
+
+          <Modal.Body>
+            <div className='item-header'>
+              <div className='item-title'>
+                <img className='icon' src='' alt='' />
+                <p>Nhập từ excel</p>
+              </div>
+
+              <div className='item-function'>
+                <div className='item-function-btn'>
+                  <Button className='qi-button'>
+                    Tải file mẫu
+                  </Button>
+                </div>
+
+                <div className='item-function-btn'>
+                  <Button className='qi-button'>
+                    Ghi
+                  </Button>
+                </div>
+
+                <div className='item-function-btn'>
+                  <Button className='qi-button' variant="secondary" onClick={handleClose}>
+                    Đóng
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            <div className='item-filter'>
+
+            </div>
+
+            <div className='upload-item-wrapper'>
+              <form onSubmit={handleSubmit}>
+                <h1>Tải lên</h1>
+                <input type="file" onChange={handleFileUploadChange} />
+                <button type="submit">Upload</button>
+              </form>
+              {uploadedFile && <img src={uploadedFile} alt="Uploaded content" />}
+              {error && <p>Error uploading file: {error.message}</p>}
+            </div>
+          </Modal.Body>
+
+          {/* <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary">Understood</Button>
+          </Modal.Footer> */}
+        </Modal>
       </div>
     </div>
   );
