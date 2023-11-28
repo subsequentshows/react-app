@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import ReactPaginate from 'react-paginate';
-import Header from "./../../Layout/Header/Header";
 import axios from 'axios';
 import DanhMucPage from '../DanhMucPage/DanhMucPage';
-import LoadingGif from '../../assets/images/loading.gif';
 import PropTypes from 'prop-types';
+import $ from 'jquery';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 function Items({ currentItems, startIndex }) {
   return (
@@ -27,6 +28,12 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
   // State variables using the useState hook
   const [pokemons, setPokemons] = useState([]);
   const [itemOffset, setItemOffset] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // Modal
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   // Fetch data when the component mounts
   useEffect(() => {
@@ -47,24 +54,36 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
     fetchData();
   }, []);
 
-  // Calculating the end offset for the current page
-  const endOffset = itemOffset + itemsPerPage;
-
-  // Slicing the 'pokemons' array to get the current items for the current page
-  // current offset for pagination
-  const currentItems = pokemons.slice(itemOffset, endOffset);
-  const pageCount = Math.ceil(pokemons.length / itemsPerPage);
-
+  // Pagination
   const handlePageClick = (event) => {
     const newOffset = event.selected * itemsPerPage;
 
     setItemOffset(newOffset);
   };
 
+  // Search functionality
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredPokemons = pokemons.filter((pokemon) =>
+    pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Calculating the end offset for the current page
+  const endOffset = itemOffset + itemsPerPage;
+
+  // Get the current items for the current page
+  // const currentItems = pokemons.slice(itemOffset, endOffset);
+  // const pageCount = Math.ceil(pokemons.length / itemsPerPage);
+
+  const currentItems = filteredPokemons.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(filteredPokemons.length / itemsPerPage);
+  // const [modalShow, setModalShow] = React.useState(false);
+
+
   return (
     <div className='item-wrapper haha'>
-
-
       <DanhMucPage />
 
       <div className='container'>
@@ -87,31 +106,40 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
             </div>
 
             <div className='item-function-btn'>
-              <button className='qi-button'>Xuất excel</button>
+              <button className='qi-button'>Xóa mục chọn</button>
             </div>
 
-
+            <div className='item-function-btn'>
+              <button className='qi-button'>Xuất excel</button>
+            </div>
           </div>
         </div>
 
         <div className='item-filter'>
-
+          <div className='search-field'>
+            <label>Tên</label>
+            <input
+              type='text'
+              placeholder='Tên'
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+          </div>
         </div>
 
         <div className='item-data'>
-          <table>
+          <table className='content-table'>
             <thead>
               <tr>
-                <th>STT</th>
-                <th>Tên</th>
-                <th>Mã</th>
-                <th></th>
+                <th className=''>STT</th>
+                <th className=''>Tên</th>
+                <th className=''>Mã</th>
+                <th className=''></th>
               </tr>
             </thead>
 
             <tbody >
               <div className={`loading-modal ${isLoading ? 'loading-modal__show' : ''}`}>
-                {/* {isLoading ? (<h1>Loading</h1>) : ''} */}
                 {isLoading ? (<h3>Loading...</h3>) : ''}
               </div>
 
