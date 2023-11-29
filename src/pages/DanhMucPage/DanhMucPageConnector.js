@@ -7,22 +7,6 @@ import PropTypes from 'prop-types';
 import $ from 'jquery';
 import { Modal, Button } from 'react-bootstrap';
 
-function Items({ currentItems, startIndex }) {
-  return (
-    <>
-      {currentItems &&
-        currentItems.map((pokemon, index) => (
-          <tr className='items' key={pokemon.id}>
-            <td className={`stt-${startIndex + index + 1}`}>{startIndex + index + 1}</td>
-            <td>{pokemon.name}</td>
-            <td>{pokemon.length}</td>
-            <td></td>
-          </tr>
-        ))}
-    </>
-  );
-}
-
 function PaginatedItems({ itemsPerPage, isLoading }) {
   // State variables using the useState hook
   const [pokemons, setPokemons] = useState([]);
@@ -39,6 +23,10 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
   const [uploadedFile, setUploadedFile] = useState();
   const [error, setError] = useState();
 
+  // Delete
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [editedItems, setEditedItems] = useState({});
+
   // Fetch data when the component mounts
   useEffect(() => {
     const fetchData = async () => {
@@ -49,6 +37,7 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
 
         // Updating the 'pokemons' state with the results
         setPokemons(response.data.results);
+        console.log(setPokemons)
       } catch (error) {
         console.error('Đã xảy ra lỗi khi lấy dữ liệu:', error);
       }
@@ -65,9 +54,69 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
     setItemOffset(newOffset);
   };
 
-  // Search functionality
+  // Search
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+  };
+
+  // Delete
+  const handleSelectChange = (event, id) => {
+    if (event.target.checked) {
+      // Add the selected item to the array
+      setSelectedItems([...selectedItems, id]);
+    } else {
+      // Remove the item from the array
+      setSelectedItems(selectedItems.filter((itemId) => itemId !== id));
+    }
+  };
+
+  // Update
+  const handleEditItem = (id) => {
+    // Set the item to be edited
+    setEditedItems((prevEditedItems) => ({
+      ...prevEditedItems,
+      [id]: { ...pokemons.find((pokemon) => pokemon.id === id) },
+    }));
+  };
+
+  const handleUpdateItem = (id) => {
+    // Implement your logic for updating the item on the backend
+    // Send a request to your backend with the edited item
+
+    // After successful update, clear the edited item
+    setEditedItems((prevEditedItems) => {
+      const updatedItems = { ...prevEditedItems };
+      delete updatedItems[id];
+      return updatedItems;
+    });
+  };
+
+  // Modify the handleInputChange function to update the edited items
+  const handleInputChange = (event, id, field) => {
+    const { value } = event.target;
+    setEditedItems((prevEditedItems) => ({
+      ...prevEditedItems,
+      [id]: { ...prevEditedItems[id], [field]: value },
+    }));
+  };
+  const handleUpdateSelected = () => {
+    // Implement your logic for updating the selected items on the backend
+    // Send a request to your backend with the editedItems array
+
+    // After successful update, clear the selected and edited items
+    setSelectedItems([]);
+    setEditedItems({});
+  };
+
+  const handleDeleteSelected = () => {
+    // Filter out the selected items from the 'pokemons' array
+    const updatedPokemons = pokemons.filter((pokemon) => !selectedItems.includes(pokemon.id));
+
+    // Update the state with the modified array
+    setPokemons(updatedPokemons);
+
+    // Clear the selected items
+    setSelectedItems([]);
   };
 
   const filteredPokemons = pokemons.filter((pokemon) =>
@@ -98,6 +147,40 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
         console.error("Error uploading file: ", error);
         setError(error);
       });
+  }
+
+
+
+  // function Items({ currentItems, startIndex, onDelete, onSelectChange, selectedItems }) {
+  function Items({ currentItems, startIndex, searchTerm, onDelete, onSelectChange, selectedItems, onInputChange, onUpdateSelected, onEditItem, onUpdateItem, }) {
+    return (
+      <>
+        {currentItems &&
+          currentItems.map((pokemon, index) => (
+            <tr className='items' key={pokemon.id}>
+              <td className={`stt-${startIndex + index + 1}`}>{startIndex + index + 1}</td>
+              <td>
+                <input
+                  type="checkbox"
+                  name={pokemon.name}
+                  checked={selectedItems.includes(pokemon.id)}
+                  onChange={(event) => handleSelectChange(event, pokemon.id)}
+                />
+              </td>
+              <td>
+                {editedItems[pokemon.id] ? (
+                  <button className='edit-btn' onClick={() => handleUpdateItem(pokemon.id)}>Update</button>
+                ) : (
+                  <button className='edit-btn' onClick={() => handleEditItem(pokemon.id)}>Edit</button>
+                )}
+              </td>
+              <td>{pokemon.name}</td>
+              <td>{pokemon.length}</td>
+              <td></td>
+            </tr>
+          ))}
+      </>
+    );
   }
 
   // Calculating the end offset for the current page
@@ -138,7 +221,7 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
             </div>
 
             <div className='item-function-btn'>
-              <button className='qi-button'>Xóa mục chọn</button>
+              <Button className='qi-button' onClick={handleDeleteSelected}>Xóa mục chọn</Button>
             </div>
 
             <div className='item-function-btn'>
@@ -164,6 +247,7 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
             <thead>
               <tr>
                 <th className=''>STT</th>
+                <th className=''>[]</th>
                 <th className=''>Tên</th>
                 <th className=''>Mã</th>
                 <th className=''></th>
@@ -175,7 +259,18 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
                 {isLoading ? (<h3>Loading...</h3>) : ''}
               </div>
 
-              <Items currentItems={currentItems} startIndex={itemOffset} />
+              <Items
+                currentItems={currentItems}
+                startIndex={itemOffset}
+                searchTerm={searchTerm}
+                onDelete={handleDeleteSelected}
+                onSelectChange={handleSelectChange}
+                selectedItems={selectedItems}
+                onInputChange={handleInputChange}
+                onUpdateSelected={handleUpdateSelected}
+                onEditItem={handleEditItem}
+                onUpdateItem={handleUpdateItem}
+              />
             </tbody>
           </table>
         </div>
@@ -191,7 +286,8 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
           containerClassName="pagination"
           previousLabel="<"
           renderOnZeroPageCount={null}
-        />
+        >
+        </ReactPaginate>
 
         <Modal
           show={show}
@@ -255,13 +351,6 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
               {error && <p>Error uploading file: {error.message}</p>}
             </div>
           </Modal.Body>
-
-          {/* <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-            <Button variant="primary">Understood</Button>
-          </Modal.Footer> */}
         </Modal>
       </div>
     </div>

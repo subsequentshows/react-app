@@ -1,4 +1,4 @@
-table {
+.content-table {
   width: 100%;
 
   thead {
@@ -6,6 +6,7 @@ table {
 
     tr th {
       color: #fff;
+      text-align: center;
     }
   }
 }
