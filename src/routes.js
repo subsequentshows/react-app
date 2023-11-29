@@ -2,7 +2,7 @@ import React from 'react';
 
 const routes = [
   {
-    path: '/Home',
+    path: '/Login/Login',
     component: React.lazy(() => import('./pages/Home/Home')),
     exact: true
   },

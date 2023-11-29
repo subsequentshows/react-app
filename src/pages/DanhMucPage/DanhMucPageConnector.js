@@ -133,7 +133,12 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
     event.preventDefault();
     const url = 'http://localhost:3000/uploadFile';
     const formData = new FormData();
-    formData.append('file', file);
+    if (file.value == 0) {
+
+    } else {
+      formData.append('file', file);
+    }
+
     formData.append('fileName', file.name);
     const config = {
       headers: {

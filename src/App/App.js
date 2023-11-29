@@ -26,7 +26,7 @@ const App = () => {
             <Link className="link" to="/todos">Todos</Link>
           </div>
 
-          <Redirect exact from="/" to="/DanhMuc/DanhMuc" />
+          {/* <Redirect exact from="/" to="/DanhMuc/DanhMuc" /> */}
           <Switch>
             {
               routes.map(route => (
