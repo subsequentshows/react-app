@@ -6,6 +6,8 @@ import DanhMucPage from '../DanhMucPage/DanhMucPage';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
 import { Modal, Button } from 'react-bootstrap';
+import * as Icon from 'react-bootstrap-icons';
+
 
 function PaginatedItems({ itemsPerPage, isLoading }) {
   // State variables using the useState hook
@@ -169,9 +171,11 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
               </td>
               <td>
                 {editedItems[pokemon.id] ? (
-                  <button className='edit-btn' onClick={() => handleUpdateItem(pokemon.id)}>Update</button>
+                  <button className='edit-btn ' onClick={() => handleUpdateItem(pokemon.id)}>Update</button>
                 ) : (
-                  <button className='edit-btn' onClick={() => handleEditItem(pokemon.id)}>Edit</button>
+                  <button className='edit-btn' onClick={() => handleEditItem(pokemon.id)}>
+                    <Icon.Gear />
+                  </button>
                 )}
               </td>
               <td>{pokemon.name}</td>
@@ -248,17 +252,15 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
               <tr>
                 <th className=''>STT</th>
                 <th className=''>[]</th>
+                <th className=''>Sửa</th>
                 <th className=''>Tên</th>
                 <th className=''>Mã</th>
+                <th className=''></th>
                 <th className=''></th>
               </tr>
             </thead>
 
-            <tbody >
-              <div className={`loading-modal ${isLoading ? 'loading-modal__show' : ''}`}>
-                {isLoading ? (<h3>Loading...</h3>) : ''}
-              </div>
-
+            <tbody>
               <Items
                 currentItems={currentItems}
                 startIndex={itemOffset}

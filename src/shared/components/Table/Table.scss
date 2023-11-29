@@ -20,19 +20,21 @@ table {
     background-color: #f9f9f9;
   }
 
-  thead tr th:first-child {
-    width: 60px;
-  }
+  th {
 
-  thead tr th:nth-child(2) {
-    width: 60px;
-  }
-
-  thead tr th:nth-child(3) {
-    width: 300px;
+    &:first-child,
+    &:nth-child(1),
+    &:nth-child(2),
+    &:nth-child(3) {
+      width: 60px;
+    }
   }
 
   thead tr th:nth-child(4) {
+    width: 300px;
+  }
+
+  thead tr th:nth-child(5) {
     width: 100px;
   }
 }
