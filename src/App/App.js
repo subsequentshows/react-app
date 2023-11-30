@@ -19,12 +19,11 @@ const App = () => {
         <>
           <Header />
 
-          <div className="navbar">
+          {/* <div className="navbar">
             <Link className="link" to="/DanhMuc/DanhMuc">Danh mục</Link>
             <Link className="link" to="/DanhMuc/DanhMucTinh">Danh mục tỉnh</Link>
             <Link className="link" to="/DanhMuc/DanhMucHuyen">Danh mục huyen</Link>
-            <Link className="link" to="/todos">Todos</Link>
-          </div>
+          </div> */}
 
           {/* <Redirect exact from="/" to="/DanhMuc/DanhMuc" /> */}
           <Switch>

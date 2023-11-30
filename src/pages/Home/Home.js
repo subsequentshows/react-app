@@ -5,9 +5,8 @@ const Home = () => {
   return (
     <div id='container'>
       <form id="form1" runat="server">
-        <p>test</p>
         <div class="container-fluid">
-          <div class="header">
+          {/* <div class="header">
             <div class="logo-and-title">
               <div class="company-logo">
                 <a href="/">
@@ -20,7 +19,7 @@ const Home = () => {
                 <p class="phan-mem-title">Hệ thống quản lý thu phí</p>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div class="height-100">
             <div class="login-section">

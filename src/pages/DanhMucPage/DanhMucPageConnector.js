@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
+import * as ReactDOMClient from 'react-dom/client';
 import ReactPaginate from 'react-paginate';
 import axios from 'axios';
 import DanhMucPage from '../DanhMucPage/DanhMucPage';
@@ -7,7 +8,6 @@ import PropTypes from 'prop-types';
 import $ from 'jquery';
 import { Modal, Button } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
-
 
 function PaginatedItems({ itemsPerPage, isLoading }) {
   // State variables using the useState hook
@@ -21,7 +21,8 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
   const handleShow = () => setShow(true);
 
   // File upload
-  const [file, setFile] = useState();
+  // const [file, setFile] = useState();
+  const [file, setFile] = useState(null);
   const [uploadedFile, setUploadedFile] = useState();
   const [error, setError] = useState();
 
@@ -39,7 +40,6 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
 
         // Updating the 'pokemons' state with the results
         setPokemons(response.data.results);
-        console.log(setPokemons)
       } catch (error) {
         console.error('Đã xảy ra lỗi khi lấy dữ liệu:', error);
       }
@@ -125,36 +125,44 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
     pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  function handleFileUploadChange(event) {
-    setFile(event.target.files[0])
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    const url = 'http://localhost:3000/uploadFile';
-    const formData = new FormData();
-    if (file.value == 0) {
-
-    } else {
-      formData.append('file', file);
+  // Upload
+  const handleFileChange = (e) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
     }
+  };
 
-    formData.append('fileName', file.name);
-    const config = {
-      headers: {
-        'content-type': 'multipart/form-data',
-      },
-    };
-    axios.post(url, formData, config)
-      .then((response) => {
-        console.log(response.data);
-        setUploadedFile(response.data.file);
-      })
-      .catch((error) => {
-        console.error("Error uploading file: ", error);
-        setError(error);
-      });
-  }
+  const handleUpload = async () => {
+    if (file) {
+      console.log("Uploading file...");
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        const result = await fetch("https://httpbin.org/post", {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await result.json();
+
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+  // End of upload
+
+  // const SingleFileUploader = () => {
+  //   const [file, setFile] = useState < File | null > (null);
+
+  //   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //     if (e.target.files) {
+  //       setFile(e.target.files[0]);
+  //     }
+  //   };
 
 
 
@@ -201,8 +209,6 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
 
   const currentItems = filteredPokemons.slice(itemOffset, endOffset);
   const pageCount = Math.ceil(filteredPokemons.length / itemsPerPage);
-  // const [modalShow, setModalShow] = React.useState(false);
-
 
   return (
     <div className='item-wrapper'>
@@ -349,13 +355,12 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
             </div>
 
             <div className='upload-item-wrapper'>
-              <form onSubmit={handleSubmit}>
-                <h1>Tải lên</h1>
-                <input type="file" onChange={handleFileUploadChange} />
-                <button type="submit">Upload</button>
-              </form>
-              {uploadedFile && <img src={uploadedFile} alt="Uploaded content" />}
-              {error && <p>Error uploading file: {error.message}</p>}
+              <div className='upload-item'>
+                <form name='upload-form' className='upload-file' >
+                  <input id="file" type="file" onChange={handleFileChange} />
+                </form>
+                {file && <button className='upload' onClick={handleUpload}>Tải lên</button>}
+              </div>
             </div>
           </Modal.Body>
         </Modal>
