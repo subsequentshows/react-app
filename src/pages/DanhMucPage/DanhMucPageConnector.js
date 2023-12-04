@@ -34,9 +34,22 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // const response = await axios.get(
+        //   `https://pokeapi.co/api/v2/pokemon?offset=0&limit=1000`
+        // );
+
         const response = await axios.get(
-          `https://pokeapi.co/api/v2/pokemon?offset=0&limit=1000`
+          'https://pokeapi.co/api/v2/pokemon?offset=0&limit=1000'
         );
+        // console.log(response);
+        // console.log(urlNguoiDung + "?ma_nam_hoc=2022&Id=69?offset=0&limit=1000");
+        // const response = await axios.get(
+        //   urlNguoiDung + "?ma_nam_hoc=2022&Id=69?offset=0&limit=1000"
+        // );
+
+        // const response = await axios.get(
+        //   `https://localhost:44300/NguoiDung?ma_nam_hoc=2022&Id=69`
+        // );
 
         // Updating the 'pokemons' state with the results
         setPokemons(response.data.results);
@@ -49,7 +62,7 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
     fetchData();
   }, []);
 
-  // Pagination
+  // Pagination click
   const handlePageClick = (event) => {
     const newOffset = event.selected * itemsPerPage;
 
@@ -138,19 +151,36 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
 
       const formData = new FormData();
       formData.append("file", file);
+      console.log(file)
 
-      try {
-        const result = await fetch("https://httpbin.org/post", {
-          method: "POST",
-          body: formData,
-        });
-
-        const data = await result.json();
-
-        console.log(data);
-      } catch (error) {
-        console.error(error);
+      function getExtension() {
+        return file.name.split('.').pop().toLowerCase();
       }
+
+      if (getExtension() === "xls" || getExtension() === "xlsx") {
+        try {
+          const result = await fetch("https://localhost:44300/upload", {
+            method: "POST",
+            body: formData,
+            success: function (fileData) {
+              alert(fileData)
+            },
+            // contentType: false,
+          });
+          console.log("Result:" + result)
+
+          const data = await result.json();
+
+          console.log("Data:" + data);
+        }
+        catch (error) {
+          console.error("Lỗi: " + error);
+        }
+      } else {
+        console.error("Chỉ cho phép nhập dữ liệu từ file Excel (*.xls, *.xlsx)")
+      }
+    } else {
+      console.error("Bạn chưa lựa chọn file excel!")
     }
   };
   // End of upload
@@ -164,9 +194,6 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
   //     }
   //   };
 
-
-
-  // function Items({ currentItems, startIndex, onDelete, onSelectChange, selectedItems }) {
   function Items({ currentItems, startIndex, searchTerm, onDelete, onSelectChange, selectedItems, onInputChange, onUpdateSelected, onEditItem, onUpdateItem, }) {
     return (
       <>
@@ -192,8 +219,8 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
                 )}
               </td>
               <td>{pokemon.name}</td>
-              <td>{pokemon.length}</td>
-              <td></td>
+              <td>{pokemon.Email}</td>
+              <td>{pokemon.TenHienThi}</td>
             </tr>
           ))}
       </>
@@ -240,7 +267,7 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
             </div>
 
             <div className='item-function-btn'>
-              <button className='qi-button'>Xuất excel</button>
+              <Button className='qi-button'>Xuất excel</Button>
             </div>
           </div>
         </div>
@@ -288,6 +315,7 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
           </table>
         </div>
 
+        {/* Pagination */}
         <ReactPaginate
           breakLabel="..."
           nextLabel=">"
@@ -302,6 +330,7 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
         >
         </ReactPaginate>
 
+        {/* Upload modal */}
         <Modal
           show={show}
           onHide={handleClose}
@@ -316,10 +345,6 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
               <img className='modal-logo' src='' alt='' />
               <p className='modal-title'>Quản lý thu phí</p>
             </Modal.Title>
-
-            {/* <Button variant="secondary" onClick={handleClose}>
-              X
-            </Button> */}
           </Modal.Header>
 
           <Modal.Body>
@@ -357,8 +382,10 @@ function PaginatedItems({ itemsPerPage, isLoading }) {
             <div className='upload-item-wrapper'>
               <div className='upload-item'>
                 <form name='upload-form' className='upload-file' >
-                  <input id="file" type="file" onChange={handleFileChange} />
+                  <input id="file" type="file" onChange={handleFileChange} accept=".xls, .xlsx" />
+
                 </form>
+
                 {file && <button className='upload' onClick={handleUpload}>Tải lên</button>}
               </div>
             </div>

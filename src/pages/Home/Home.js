@@ -106,17 +106,10 @@ const Home = () => {
                   <div class="captcha-wrapper">
                     <div class="captcha-input input-group">
                       <input name="tbCapcha" type="text" id="tbCapcha" class="form-control input-captcha" nulltext="Mã xác nhận" placeholder="Nhập mã xác nhận" autocomplete="off" wfd-id="id16" />
+
                     </div>
                     <div class="captcha-text">
-                      <table>
-                        <tr>
-                          <td class="captcha">
-
-                          </td>
-                          <td class="captcha-refresh">
-                          </td>
-                        </tr>
-                      </table>
+                      <img src="Surface/captcha" alt="Captcha" class="captcha-image" id="captcha-img" />
                     </div>
                   </div>
                 </div>
